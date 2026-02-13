@@ -1,0 +1,4 @@
+(1) Gradle setups
+(2) Navigation
+    Define our own backstack or the actual history of the screen that we are navigating to and from.
+    Define how many screens we have with sealedClass
