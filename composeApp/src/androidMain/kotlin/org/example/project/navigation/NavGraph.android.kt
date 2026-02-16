@@ -10,11 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import org.koin.compose.koinInject
 
 @Composable
 actual fun NavGraph() {
     // NavDisplay defines our different destinations
-    val navigator = remember { Navigator() }
+    // val navigator = remember { Navigator() }
+    val navigator = koinInject<Navigator>()
 
     NavDisplay(
         backStack = navigator.backStack,
