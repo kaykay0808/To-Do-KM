@@ -2,3 +2,11 @@
 (2) Navigation
     Define our own backstack or the actual history of the screen that we are navigating to and from.
     Define how many screens we have with sealedClass
+
+(3) koin
+    - di package inside commonMain.
+    - change navigator to koin?
+    - initial koin on each platform
+
+(4) generate material theme
+    https://material-foundation.github.io/material-theme-builder/

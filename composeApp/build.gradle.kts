@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
 
+            // Koin dependency injection
             implementation(libs.koin.android)
 
             // implementation(libs.sqldelight.android)
@@ -53,6 +54,7 @@ kotlin {
             implementation(libs.kotlinx.serialization)
             implementation(libs.kotlinx.date.time)
 
+            // Koin dependency injection
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
