@@ -10,6 +10,7 @@ import to_do_km.composeapp.generated.resources.edit
 import to_do_km.composeapp.generated.resources.hamburger_menu
 import to_do_km.composeapp.generated.resources.painting_dark
 import to_do_km.composeapp.generated.resources.painting_light
+import to_do_km.composeapp.generated.resources.pen_and_paper_dark
 import to_do_km.composeapp.generated.resources.pen_and_paper_light
 import to_do_km.composeapp.generated.resources.search
 import to_do_km.composeapp.generated.resources.sort
@@ -33,6 +34,7 @@ object Resource {
         val PAINTING_LIGHT = Res.drawable.painting_light
         val PAINTING_DARK = Res.drawable.painting_dark
         val PEN_PAPER_LIGHT = Res.drawable.pen_and_paper_light
+        val PEN_PAPER_DARK = Res.drawable.pen_and_paper_dark
         val WARNING_LIGHT = Res.drawable.warning_light
         val WARNING_DARK = Res.drawable.warning_dark
     }
