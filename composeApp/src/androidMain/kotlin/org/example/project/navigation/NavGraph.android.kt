@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
@@ -20,8 +19,8 @@ actual fun NavGraph() {
 
     NavDisplay(
         backStack = navigator.backStack,
-        onBack = {navigator.goBack()},
-        entryProvider = entryProvider{
+        onBack = { navigator.goBack() },
+        entryProvider = entryProvider {
             entry<Screen.Home> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
