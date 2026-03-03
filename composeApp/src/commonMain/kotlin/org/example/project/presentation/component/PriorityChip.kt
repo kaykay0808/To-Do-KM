@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,12 +18,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.example.project.domain.Priority
 import org.example.project.presentation.component.PriorityColor.getColor
-import org.example.project.util.Alpha
 
 @Composable
 fun PriorityChip(
     priority: Priority,
-    size: PriorityChipSize= PriorityChipSize.MEDIUM, // The enum class
+    size: PriorityChipSize = PriorityChipSize.MEDIUM,
     isCompleted: Boolean
 ) {
     val padding = size.toPadding()
@@ -104,7 +102,7 @@ object PriorityColor {
     @Composable
     fun Priority.getColor(): Color {
         val isDark = isSystemInDarkTheme()
-        return when(this) {
+        return when (this) {
             Priority.LOW -> if (isDark) darkLow else lightLow
             Priority.MEDIUM -> if (isDark) darkMedium else lightMedium
             Priority.HIGH -> if (isDark) darkHigh else lightHigh
