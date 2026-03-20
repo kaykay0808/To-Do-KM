@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 // Sealed class is like an enum but with more power. -> enum class State { Idle, Loading, Success, Error }
+// Whenever we are tying to do something (Save, load, delete) The app can be in one of these states.
 sealed class RequestState<out T> {
     data object Idle : RequestState<Nothing>()
     data object Loading : RequestState<Nothing>()
@@ -36,7 +37,7 @@ sealed class RequestState<out T> {
     fun getErrorDataOrNull() = if (this.isError()) this.getErrorMessage() else null
 }
 
-// Animation
+// Animation -> can call it like this: state.DisplayResult(...)
 @Composable
 fun <T> RequestState<T>.DisplayResult(
     modifier: Modifier = Modifier,

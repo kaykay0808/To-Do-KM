@@ -1,6 +1,7 @@
 package org.example.project.util
 
 import to_do_km.composeapp.generated.resources.Res
+import to_do_km.composeapp.generated.resources.add
 import to_do_km.composeapp.generated.resources.arrow_back
 import to_do_km.composeapp.generated.resources.blank_box
 import to_do_km.composeapp.generated.resources.check_box
@@ -28,6 +29,7 @@ object Resource {
         val HAMBURGER_MENU = Res.drawable.hamburger_menu
         val SEARCH = Res.drawable.search
         val SORT = Res.drawable.sort
+        val ADD = Res.drawable.add
     }
 
     object Image {

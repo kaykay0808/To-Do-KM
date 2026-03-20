@@ -10,3 +10,4 @@
 
 (4) generate material theme
     https://material-foundation.github.io/material-theme-builder/
+UI -> ViewModel -> Repository -> UiDisplay
