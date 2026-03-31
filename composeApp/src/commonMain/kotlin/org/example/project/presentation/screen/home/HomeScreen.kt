@@ -35,7 +35,7 @@ fun HomeScreen(
     navigateToTask: (String?) -> Unit
 ) {
     val viewModel = koinViewModel<HomeViewModel>()
-    val allTasks by viewModel.allTasks.collectAsStateWithLifecycle() // This line expects Flow<T> OR StateFlow<T>
+    val allTasks by viewModel.allTasks.collectAsStateWithLifecycle() // This line expects Flow<T> OR StateFlow<T> ::-> Flow<RequestState<T>>
 
     Scaffold(
         topBar = {
@@ -65,12 +65,10 @@ fun HomeScreen(
                 Text(text = "New Task")
             }
         }
-    ) { padding ->
+
+    ) { paddingValues ->
         allTasks.DisplayResult(
-            modifier = Modifier.padding(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding()
-            ),
+            modifier = Modifier.padding(paddingValues),
             onLoading = { LoadingCard() },
             onSuccess = { tasks ->
                 if (tasks.isNotEmpty()) {
@@ -84,9 +82,7 @@ fun HomeScreen(
                         ) {
                             TaskCard(
                                 task = it,
-                                onClick = { taskId ->
-
-                                }
+                                onClick = navigateToTask
                             )
                         }
                     }

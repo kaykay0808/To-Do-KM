@@ -8,6 +8,8 @@ import org.example.project.domain.ToDoTask
 import org.example.project.util.RequestState
 import kotlin.coroutines.CoroutineContext
 
+// Repository provides data.
+
 class FakeToDoRepository : ToDoRepository {
     private val tasks = mutableStateListOf<ToDoTask>()
 

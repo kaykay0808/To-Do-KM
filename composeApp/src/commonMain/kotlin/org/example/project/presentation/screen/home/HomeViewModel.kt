@@ -11,10 +11,14 @@ import org.example.project.data.ToDoRepository
 import org.example.project.domain.ToDoTask
 import org.example.project.util.RequestState
 
+// ViewModel converts Flow → StateFlow
+// readAllTasks() → gives a Flow
+// stateIn(...) → converts it into a StateFlow
 class HomeViewModel(
     private val repository: ToDoRepository
 ): ViewModel() {
     val allTasks = repository.readAllTasks()
+        // StateFlow = "live box of data that UI can observe"
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000), // if the app goes to the background or we go to a different screens it will stop collecting after 5 seconds.

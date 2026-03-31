@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import org.example.project.presentation.screen.home.HomeScreen
+import org.example.project.presentation.screen.task.TaskScreen
 import org.koin.compose.koinInject
 
 @Composable
@@ -23,7 +24,12 @@ actual fun NavGraph() {
                     }
                 )
             }
-            entry<Screen.Task> {}
+            entry<Screen.Task> {
+                TaskScreen(
+                    id = it.id,
+                    navigateBack = { navigator.goBack() }
+                )
+            }
         }
     )
 }

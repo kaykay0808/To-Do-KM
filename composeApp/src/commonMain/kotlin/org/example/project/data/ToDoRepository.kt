@@ -10,7 +10,7 @@ interface ToDoRepository {
     fun createTask(task: ToDoTask): RequestState<Unit> // the operation was successful or not
     fun updateTask(task: ToDoTask): RequestState<Unit>
     fun readSelectedTask(taskId: String): RequestState<ToDoTask>
-    fun readAllTasks(/*context: CoroutineContext*/): Flow<RequestState<List<ToDoTask>>>
+    fun readAllTasks(/*context: CoroutineContext*/): Flow<RequestState<List<ToDoTask>>> // StateFlow = "live box of data that UI can observe"
     fun removeTask(taskId: String): RequestState<Unit>
 }
 
