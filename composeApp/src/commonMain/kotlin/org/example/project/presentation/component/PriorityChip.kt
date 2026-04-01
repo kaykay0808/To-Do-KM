@@ -2,6 +2,7 @@ package org.example.project.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,28 +23,31 @@ import org.example.project.presentation.component.PriorityColor.getColor
 @Composable
 fun PriorityChip(
     priority: Priority,
-    size: PriorityChipSize = PriorityChipSize.MEDIUM,
-    isCompleted: Boolean
+    size: PriorityChipSize = PriorityChipSize.Medium,
+    isCompleted: Boolean = false,
+    iseSelected: Boolean = false,
+    onSelect: ((Priority) -> Unit)? = null
+
 ) {
     val padding = size.toPadding()
+    val shouldUseOutline = if (onSelect != null) !iseSelected else !isCompleted
+    val chipColor = if(shouldUseOutline) MaterialTheme.colorScheme.outline else priority.getColor()
+
     Text(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                if (isCompleted) {
-                    MaterialTheme.colorScheme.outline
+            .clip(RoundedCornerShape(8.dp)) // clip modifier should go first?
+            .then(
+                if (onSelect != null) {
+                    Modifier.clickable { onSelect(priority) }
                 } else {
-                    priority.getColor()
+                    Modifier
                 }
             )
+            .background(chipColor)
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(8.dp),
-                color = if (isCompleted) {
-                    MaterialTheme.colorScheme.outline
-                } else {
-                    priority.getColor()
-                }
+                color = chipColor
             )
             .padding(
                 horizontal = padding.horizontal,
@@ -76,14 +80,14 @@ data class PriorityChipPadding(
 
 // usage -> val size = PriorityChipSize.LOW
 enum class PriorityChipSize {
-    LOW,
-    MEDIUM,
-    HIGH;
+    Small,
+    Medium,
+    Large;
 
     fun toPadding(): PriorityChipPadding = when (this) {
-        LOW -> PriorityChipPadding.Small
-        MEDIUM -> PriorityChipPadding.Medium
-        HIGH -> PriorityChipPadding.Large
+        Small -> PriorityChipPadding.Small
+        Medium -> PriorityChipPadding.Medium
+        Large -> PriorityChipPadding.Large
     }
 }
 
@@ -116,7 +120,7 @@ object PriorityColor {
 fun PriorityChipLowPreview() {
     PriorityChip(
         priority = Priority.LOW,
-        size = PriorityChipSize.LOW,
+        size = PriorityChipSize.Small,
         isCompleted = false
     )
 }
@@ -126,7 +130,7 @@ fun PriorityChipLowPreview() {
 fun PriorityChipMediumPreview() {
     PriorityChip(
         priority = Priority.MEDIUM,
-        size = PriorityChipSize.MEDIUM,
+        size = PriorityChipSize.Medium,
         isCompleted = false
     )
 }
@@ -136,7 +140,7 @@ fun PriorityChipMediumPreview() {
 fun PriorityChipHighPreview() {
     PriorityChip(
         priority = Priority.HIGH,
-        size = PriorityChipSize.HIGH,
+        size = PriorityChipSize.Large,
         isCompleted = false
     )
 }
@@ -147,7 +151,7 @@ fun PriorityChipHighPreview() {
 fun PriorityChipLowCompletedPreview() {
     PriorityChip(
         priority = Priority.LOW,
-        size = PriorityChipSize.LOW,
+        size = PriorityChipSize.Small,
         isCompleted = true
     )
 }
@@ -157,7 +161,7 @@ fun PriorityChipLowCompletedPreview() {
 fun PriorityChipMediumCompletedPreview() {
     PriorityChip(
         priority = Priority.MEDIUM,
-        size = PriorityChipSize.MEDIUM,
+        size = PriorityChipSize.Medium,
         isCompleted = true
     )
 }
@@ -167,7 +171,7 @@ fun PriorityChipMediumCompletedPreview() {
 fun PriorityChipHighCompletedPreview() {
     PriorityChip(
         priority = Priority.HIGH,
-        size = PriorityChipSize.HIGH,
+        size = PriorityChipSize.Large,
         isCompleted = true
     )
 }
