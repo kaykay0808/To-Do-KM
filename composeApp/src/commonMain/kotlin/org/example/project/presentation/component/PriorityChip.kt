@@ -25,12 +25,14 @@ fun PriorityChip(
     priority: Priority,
     size: PriorityChipSize = PriorityChipSize.Medium,
     isCompleted: Boolean = false,
-    iseSelected: Boolean = false,
-    onSelect: ((Priority) -> Unit)? = null
+    isSelected: Boolean = false, // 👈 current selected (based on this we can stylize this)
+    onSelect: ((Priority) -> Unit)? = null // 👈 callback to update it
 
 ) {
     val padding = size.toPadding()
-    val shouldUseOutline = if (onSelect != null) !iseSelected else !isCompleted
+    // Should be Gray
+    val shouldUseOutline = if (onSelect != null) !isSelected else !isCompleted
+    //                    👆 1. checking null    👆 2. flipping   👆 3. flipping
     val chipColor = if(shouldUseOutline) MaterialTheme.colorScheme.outline else priority.getColor()
 
     Text(

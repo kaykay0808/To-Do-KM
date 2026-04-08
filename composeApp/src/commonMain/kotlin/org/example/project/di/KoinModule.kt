@@ -4,6 +4,7 @@ import org.example.project.data.FakeToDoRepository
 import org.example.project.data.ToDoRepository
 import org.example.project.navigation.Navigator
 import org.example.project.presentation.screen.home.HomeViewModel
+import org.example.project.presentation.screen.task.TaskViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
@@ -23,6 +24,7 @@ val koinModule = module {
     singleOf(::Navigator)
     single<ToDoRepository> { FakeToDoRepository() }
     viewModelOf(::HomeViewModel)
+    viewModelOf(::TaskViewModel)
 }
 
 // initiate it separately in the Android main and ios main

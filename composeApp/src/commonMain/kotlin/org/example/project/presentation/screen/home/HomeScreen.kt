@@ -1,5 +1,10 @@
 package org.example.project.presentation.screen.home
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -96,7 +101,9 @@ fun HomeScreen(
                     lightModeIcon = Resource.Image.WARNING_LIGHT,
                     darkModeIcon = Resource.Image.WARNING_DARK
                 )
-            }
+            },
+            transitionSpec = slideInVertically() + fadeIn() togetherWith
+                    slideOutVertically() + fadeOut()
         )
     }
 }

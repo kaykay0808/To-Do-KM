@@ -22,24 +22,28 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.example.project.domain.Priority
 import org.example.project.presentation.component.PriorityChip
 import org.example.project.presentation.component.PriorityChipSize
 import org.example.project.util.Alpha
 import org.example.project.util.Resource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,9 +51,19 @@ fun TaskScreen(
     id: String?,
     navigateBack: () -> Unit
 ) {
-    var selectedPriority by remember { mutableStateOf(Priority.LOW) }
+    val viewModel = koinViewModel<TaskViewModel>()
+    val uiState by viewModel.uiState
+    val snackBarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+
+    // var selectedPriority by remember { mutableStateOf(Priority.LOW) }
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loadData(id)
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(text = "Task") },
@@ -78,23 +92,24 @@ fun TaskScreen(
             ) {
                 TaskInputSection(
                     title = "Title",
-                    value = "",
-                    onValueChanged = {},
+                    value = uiState.title,
+                    onValueChanged = viewModel::updateTitle,
                     placeHolder = "Enter Task Title....",
                     isRequired = true
                 )
 
                 TaskInputSection(
                     title = "Task Description",
-                    value = "",
-                    onValueChanged = {},
+                    value = uiState.description,
+                    onValueChanged = viewModel::updateDescription,
                     placeHolder = "Enter Task Description....",
                     minLines = 3,
                     maxLines = 6
                 )
+                // This section get the state
                 PrioritySection(
-                    selectedPriority = selectedPriority,
-                    onPrioritySelected = { selectedPriority = it }
+                    selectedPriority = uiState.priority, // 👈 current selected
+                    onPrioritySelected = viewModel::updatePriority // 👈 callback to update it
                 )
             }
             Box(
@@ -106,7 +121,23 @@ fun TaskScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
-                    onClick = {}
+                    onClick = {
+                        viewModel.saveTask(
+                            onSuccess = {
+                                scope.launch {
+                                    snackBarHostState.showSnackbar(
+                                        message = if (id != null) "Task Updated"
+                                        else "Task Created"
+                                    )
+                                }
+                            },
+                            onError = { message ->
+                                scope.launch {
+                                    snackBarHostState.showSnackbar(message)
+                                }
+                            }
+                        )
+                    }
                 ) {
                     Text(text = if (id != null) "Update" else "Create Task")
                 }
@@ -170,12 +201,12 @@ fun PrioritySection(
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             // .entries gives you all values as a list
-            Priority.entries.forEach { priority ->
+            Priority.entries.forEach { priority -> // 👈 [LOW, MEDIUM, HIGH]
                 PriorityChip(
                     priority = priority,
                     size = PriorityChipSize.Large,
-                    iseSelected = priority == selectedPriority,
-                    onSelect = onPrioritySelected
+                    isSelected = priority == selectedPriority, // 👈 is This chip selected?
+                    onSelect = onPrioritySelected // 👈 callback when tapped
                 )
             }
         }
