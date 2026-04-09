@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.example.project.data.ToDoRepository
 import org.example.project.domain.ToDoTask
 import org.example.project.util.RequestState
@@ -25,21 +26,29 @@ class HomeViewModel(
             initialValue = RequestState.Loading
         )
 
-    // Testing Error
-    /*val allTasks: StateFlow<RequestState<List<ToDoTask>>> = flowOf(RequestState.Error(message ="Fuck off"))
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000), // if the app goes to the background or we go to a different screens it will stop collecting after 5 seconds.
-            initialValue = RequestState.Loading
-        )*/
+    fun markTaskAsCompleted(task: ToDoTask): RequestState<Unit> {
+        return repository.updateTask(task)
+    }
 
-    // Cleaner way to testing error
-    /*val allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(
-        RequestState.Error("Fuck Off")
-    )*/
-
-    // Loading test
-    /*val allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(
-        RequestState.Loading
-    )*/
+    fun removeTask(taskId: String): RequestState<Unit> {
+        return repository.removeTask(taskId)
+    }
 }
+
+// Testing Error
+/*val allTasks: StateFlow<RequestState<List<ToDoTask>>> = flowOf(RequestState.Error(message ="Fuck off"))
+    .stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000), // if the app goes to the background or we go to a different screens it will stop collecting after 5 seconds.
+        initialValue = RequestState.Loading
+    )*/
+
+// Cleaner way to testing error
+/*val allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(
+    RequestState.Error("Fuck Off")
+)*/
+
+// Loading test
+/*val allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(
+    RequestState.Loading
+)*/
