@@ -11,6 +11,20 @@ class Navigator {
         backStack.add(screen)
     }
 
+    // A special function for our task screen to not duplicate
+    fun navigateToTask(taskId: String? = null) {
+        if(backStack.lastOrNull() is Screen.Task) {
+            // already on a task screen
+            // just REPLACE it instead of adding
+            backStack[backStack.lastIndex] = Screen.Task(taskId)
+        } else {
+            // not on a task screen yet
+            // ADD it normally
+            backStack.add(Screen.Task(id = taskId))
+
+        }
+    }
+
     fun goBack() {
         // adjustment for later wrap it in a if block -> if (backStack.size > 1) {}
         backStack.removeLastOrNull()

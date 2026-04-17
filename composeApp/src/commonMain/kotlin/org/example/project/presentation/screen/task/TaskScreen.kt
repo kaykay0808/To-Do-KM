@@ -2,6 +2,7 @@ package org.example.project.presentation.screen.task
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,17 +66,22 @@ fun TaskScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            TopAppBar(
-                title = { Text(text = "Task") },
-                navigationIcon = {
-                    IconButton(onClick = navigateBack) {
-                        Icon(
-                            painter = painterResource(Resource.Icon.BACK_ARROW),
-                            contentDescription = "Back arrow icon"
-                        )
-                    }
+            BoxWithConstraints {
+                val isDualPane = maxWidth >= maxHeight
+                if (!isDualPane) {
+                    TopAppBar(
+                        title = { Text(text = "Task") },
+                        navigationIcon = {
+                            IconButton(onClick = navigateBack) {
+                                Icon(
+                                    painter = painterResource(Resource.Icon.BACK_ARROW),
+                                    contentDescription = "Back arrow icon"
+                                )
+                            }
+                        }
+                    )
                 }
-            )
+            }
         }
     ) { paddingValues ->
         Column(
