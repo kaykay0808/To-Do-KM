@@ -96,11 +96,13 @@ enum class PriorityChipSize {
 // Define indicator colors for each priority.
 object PriorityColor {
     // Light theme colors
+    private val lightNone = Color(0xFF000000)
     private val lightLow = Color(0xFF2E7D32)
     private val lightMedium = Color(0xFFEF6C00)
     private val lightHigh = Color(0xFFC62828)
 
     // Dark theme colors
+    private val darkNone = Color(0xFFFFFFFF)
     private val darkLow = Color(0xFF4CAF50)
     private val darkMedium = Color(0xFFFF9800)
     private val darkHigh = Color(0xFFE53935)
@@ -109,6 +111,7 @@ object PriorityColor {
     fun Priority.getColor(): Color {
         val isDark = isSystemInDarkTheme()
         return when (this) {
+            Priority.NONE -> if (isDark) darkNone else lightNone
             Priority.LOW -> if (isDark) darkLow else lightLow
             Priority.MEDIUM -> if (isDark) darkMedium else lightMedium
             Priority.HIGH -> if (isDark) darkHigh else lightHigh

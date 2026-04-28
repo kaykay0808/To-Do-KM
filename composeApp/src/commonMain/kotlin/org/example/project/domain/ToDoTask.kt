@@ -18,6 +18,7 @@ data class ToDoTask(
 )
 
 enum class Priority {
+    NONE,
     LOW,
     MEDIUM,
     HIGH
