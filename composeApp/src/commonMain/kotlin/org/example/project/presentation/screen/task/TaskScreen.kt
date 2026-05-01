@@ -130,6 +130,7 @@ fun TaskScreen(
                     onClick = {
                         viewModel.saveTask(
                             onSuccess = {
+                                navigateBack()
                                 scope.launch {
                                     snackBarHostState.showSnackbar(
                                         message = if (id != null) "Task Updated"
@@ -206,8 +207,8 @@ fun PrioritySection(
             style = MaterialTheme.typography.titleMedium
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            // .entries gives you all values as a list
-            Priority.entries.forEach { priority -> // 👈 [LOW, MEDIUM, HIGH]
+            // .entries gives you all values as a list // Drop take away NONE priority.
+            Priority.entries.drop(1).forEach { priority -> // 👈 [LOW, MEDIUM, HIGH]
                 PriorityChip(
                     priority = priority,
                     size = PriorityChipSize.Large,

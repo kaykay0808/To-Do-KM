@@ -28,7 +28,7 @@ class HomeViewModel(
     val searchQuery: StateFlow<String> = _searchQuery// 👈 read only for UI (public)
 
     val allTasks = combine(
-        repository.readAllTasks(), // 👈 flow 1: list of task
+        repository.readAllTasks(context = viewModelScope.coroutineContext), // 👈 flow 1: list of task
         _priorityFilter, // 👈 flow 2: filter
         _searchQuery // 👈 flow 3: search text
 

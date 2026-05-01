@@ -69,7 +69,7 @@ fun HomeScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val allTasks by viewModel.allTasks.collectAsStateWithLifecycle() // This line expects Flow<T> OR StateFlow<T> ::-> Flow<RequestState<T>>
+    val allTasks by viewModel.allTasks.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val priorityFilter by viewModel.priorityFilter.collectAsStateWithLifecycle()
 
@@ -136,12 +136,12 @@ fun HomeScreen(
                                 )
                             }
                         } else {
-                            Row{
+                            Row {
 
                                 Box {
-                                    Box (
+                                    Box(
                                         contentAlignment = Alignment.TopEnd
-                                    ){
+                                    ) {
                                         IconButton(onClick = { dropDownMenuOpened = true }) {
                                             // IconButton size by default is 48dp by default
                                             Icon(
@@ -150,16 +150,19 @@ fun HomeScreen(
                                             )
                                         }
                                         // The circle dot
-                                        if(priorityFilter != Priority.NONE) {
+                                        if (priorityFilter != Priority.NONE) {
                                             Box(
                                                 modifier = Modifier
                                                     .size(8.dp)
-                                                    .offset(x = (-6).dp,  y = 6.dp) // moving the dot position closer to the icon.
+                                                    .offset(
+                                                        x = (-6).dp,
+                                                        y = 6.dp
+                                                    ) // moving the dot position closer to the icon.
                                                     .clip(CircleShape)
                                                     .background(MaterialTheme.colorScheme.errorContainer)
                                             )
                                         } else {
-                                            Box{}
+                                            Box {}
                                         }
                                     }
                                     DropdownMenu(
@@ -173,9 +176,13 @@ fun HomeScreen(
                                                 modifier = Modifier
                                                     .background(
                                                         if (priorityFilter == priority && priorityFilter != Priority.NONE) MaterialTheme.colorScheme.outlineVariant
-                                                        else  MaterialTheme.colorScheme.surfaceVariant
+                                                        else MaterialTheme.colorScheme.surfaceVariant
                                                     ),
-                                                text = { Text(text = priority.name)},
+                                                text = {
+                                                    Text(
+                                                        text = if (priority == Priority.NONE) "ALL" else priority.name
+                                                    )
+                                                },
                                                 leadingIcon = {
                                                     Box(
                                                         modifier = Modifier

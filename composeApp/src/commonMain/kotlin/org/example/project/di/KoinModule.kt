@@ -2,11 +2,13 @@ package org.example.project.di
 
 import org.example.project.data.FakeToDoRepository
 import org.example.project.data.ToDoRepository
+import org.example.project.data.ToDoRepositoryImplementation
 import org.example.project.navigation.Navigator
 import org.example.project.presentation.screen.home.HomeViewModel
 import org.example.project.presentation.screen.task.TaskViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -20,9 +22,12 @@ This code is doing two things:
 
 This is very common in Kotlin Multiplatform.*/
 
+expect val targetModule: Module
+
 val koinModule = module {
     singleOf(::Navigator)
-    single<ToDoRepository> { FakeToDoRepository() }
+    // single<ToDoRepository> { FakeToDoRepository() }
+    single<ToDoRepository> { ToDoRepositoryImplementation(get()) }
     viewModelOf(::HomeViewModel)
     viewModelOf(::TaskViewModel)
 }
@@ -33,6 +38,6 @@ fun initializeKoin(
 ) {
     startKoin {
         config?.invoke(this)
-        modules(koinModule)
+        modules(koinModule, targetModule)
     }
 }
